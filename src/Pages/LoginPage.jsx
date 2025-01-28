@@ -1,7 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginUser } from "../Redux/Slices/authSlice";
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
+  const dispatch = useDispatch();
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
+  };
+  const handleSignin = (e) => {
+    e.preventDefault();
+    dispatch(LoginUser(inputValue)).then(() => {
+      navigate("/");
+    });
+  };
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center py-12">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -16,8 +37,9 @@ function LoginPage() {
             Email
           </label>
           <input
+            onChange={handleOnChange}
             type="email"
-            value=""
+            value={inputValue.email}
             id="email"
             name="email"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -33,8 +55,9 @@ function LoginPage() {
             Password
           </label>
           <input
+            onChange={handleOnChange}
             type="password"
-            value=""
+            value={inputValue.password}
             id="password"
             name="password"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -46,6 +69,7 @@ function LoginPage() {
           <span className="text-blue-800">Forgot Password?</span>
         </Link>
         <button
+          onClick={handleSignin}
           type="submit" // Set button type to submit
           className="bg-yellow-400 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-lg w-full mt-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
         >

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { signupUser } from "../Redux/Slices/authSlice";
 
 function SignupPage() {
   const [signupDetails, setSignupDetails] = useState({
@@ -9,6 +11,7 @@ function SignupPage() {
     password: "",
     avatar: "",
   });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState();
 
@@ -37,10 +40,13 @@ function SignupPage() {
     }));
   };
 
-  const handleSignin = (e) => {
+  const handleSignup = (e) => {
     e.preventDefault(); // Prevent default form submission
-    console.log("Signup Details:", signupDetails); // Log the signup details
-    navigate("/"); // Navigate to home or another page
+    console.log("Signup Details:", signupDetails);
+    dispatch(signupUser(signupDetails)).then(() => {
+      navigate("/"); // Navigate to welcome page after signup
+    }); // Log the signup details
+    // Navigate to home or another page
   };
 
   return (
@@ -49,7 +55,7 @@ function SignupPage() {
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
           Register Yourself
         </h2>
-        <form className="flex flex-col gap-4" onSubmit={handleSignin}>
+        <form className="flex flex-col gap-4" onSubmit={handleSignup}>
           <label htmlFor="image_uploads" className="cursor-pointer text-center">
             {previewImage ? (
               <img
@@ -128,6 +134,7 @@ function SignupPage() {
             />
           </div>
           <button
+            onClick={handleSignup}
             type="submit" // Set button type to submit
             className="bg-yellow-400 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-lg w-full mt-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
           >
