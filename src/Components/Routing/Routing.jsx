@@ -7,6 +7,7 @@ import LoginPage from "../../Pages/LoginPage";
 import NotFoundPage from "../../Pages/NotFoundPage";
 import CourseListPage from "../../Pages/CoursePageList";
 import CourseDescriptionPage from "../../Pages/CourseDescriptionPage";
+import MyCoursesPage from "../../Pages/MyCoursesPage";
 
 function Routing() {
   return (
@@ -16,6 +17,7 @@ function Routing() {
           <Route index element={<Home />} />
           <Route path="/courselist" element={<CourseListPage />} />
           <Route path="/course/:id" element={<CourseDescriptionPage />} />
+          <Route path="/mycourses" element={<MyCoursesPage />} />
         </Route>
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />

@@ -3,9 +3,11 @@ import React from "react";
 import CourseCard from "../Components/Cards/CourseCard";
 import { useSelector } from "react-redux";
 import { selectAllCourses } from "../Redux/Slices/courseSlice";
+import { useNavigate } from "react-router-dom";
 
 function CourseListPage() {
-  const courses = useSelector(selectAllCourses); // Access all courses
+  const courses = useSelector(selectAllCourses);
+  const navigate = useNavigate(); // Access all courses
 
   return (
     <div className="bg-gray-100 min-h-screen py-12">

@@ -1,44 +1,72 @@
+// courseSlice.js
+
 import { createSlice } from "@reduxjs/toolkit";
 
+// Initial state for courses
 const initialState = {
-  courseList: [
+  courses: [
     {
       id: 1,
       title: "React for Beginners",
-      description: "Learn the basics of React.js and build dynamic web apps.",
-      price: 49.99,
-      image: "https://via.placeholder.com/300x200.png?text=React+Course",
+      description: "Learn React by building practical projects.",
+      price: 29.99,
+      image: "https://via.placeholder.com/300x200?text=React+for+Beginners",
     },
     {
       id: 2,
       title: "Advanced JavaScript",
-      description: "Master JavaScript and level up your development skills.",
-      price: 79.99,
-      image: "https://via.placeholder.com/300x200.png?text=JavaScript+Course",
+      description: "Deep dive into JavaScript's advanced concepts.",
+      price: 49.99,
+      image: "https://via.placeholder.com/300x200?text=Advanced+JavaScript",
     },
     {
       id: 3,
-      title: "UI/UX Design Fundamentals",
-      description:
-        "Discover the principles of great design and user experience.",
-      price: 59.99,
-      image: "https://via.placeholder.com/300x200.png?text=UI/UX+Course",
+      title: "UI/UX Design Principles",
+      description: "Master the art of UI/UX design for web and mobile apps.",
+      price: 39.99,
+      image: "https://via.placeholder.com/300x200?text=UI/UX+Design",
     },
     {
       id: 4,
       title: "Python for Data Science",
-      description: "Analyze and visualize data using Python.",
-      price: 99.99,
-      image: "https://via.placeholder.com/300x200.png?text=Python+Course",
+      description:
+        "Learn Python programming and its application in data science.",
+      price: 59.99,
+      image: "https://via.placeholder.com/300x200?text=Python+for+Data+Science",
+    },
+    {
+      id: 5,
+      title: "Digital Marketing Essentials",
+      description:
+        "Learn the basics of digital marketing and how to grow a business online.",
+      price: 19.99,
+      image: "https://via.placeholder.com/300x200?text=Digital+Marketing",
+    },
+    {
+      id: 6,
+      title: "Introduction to Machine Learning",
+      description:
+        "Learn the fundamentals of machine learning and data analysis.",
+      price: 49.99,
+      image: "https://via.placeholder.com/300x200?text=Machine+Learning",
     },
   ],
+  selectedCourse: null, // Store selected course
 };
+
 const courseSlice = createSlice({
   name: "course",
   initialState,
-  reducers: {},
+  reducers: {
+    setCourses(state, action) {
+      state.courses = action.payload;
+    },
+    setSelectedCourse(state, action) {
+      state.selectedCourse = action.payload;
+    },
+  },
 });
-export const selectAllCourses = (state) => state.course.courseList;
-export const selectCourseById = (state, courseId) =>
-  state.course.courseList.find((course) => course.id === courseId);
+
+export const { setCourses, setSelectedCourse } = courseSlice.actions;
+export const selectAllCourses = (state) => state.course.courses;
 export default courseSlice.reducer;

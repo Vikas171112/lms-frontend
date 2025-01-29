@@ -1,8 +1,10 @@
 import React from "react";
 import heroBgImage from "../assets/heroBgImage.webp";
 import TypewriterComponent from "typewriter-effect";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   return (
     <main className="min-h-[70vh] flex items-center justify-center bg-gray-50 min-w-full">
       <section className="container mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between">
@@ -32,7 +34,12 @@ function Home() {
           <p className="mt-4 text-lg text-gray-600">
             Learn valuable skills and advance your career.
           </p>
-          <button className="mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
+          <button
+            onClick={() => {
+              navigate("/courselist");
+            }}
+            className="mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded"
+          >
             Explore Courses
           </button>
         </div>

@@ -1,15 +1,42 @@
-// /src/pages/CourseDescriptionPage.js
-import React from "react";
-import { useSelector } from "react-redux";
+// CourseDescriptionPage.jsx
+
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { selectCourseById } from "../Redux/Slices/courseSlice";
+import { setSelectedCourse } from "../Redux/Slices/courseSlice"; // Action to set selected course
+import { enrollIncourse } from "../Redux/Slices/authSlice"; // Action to enroll
 
 function CourseDescriptionPage() {
   const { id } = useParams(); // Get course ID from URL
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // Fetch course details using the selector
-  const course = useSelector((state) => selectCourseById(state, parseInt(id)));
+  // Fetch courses from the store (this can be from an API or a predefined array)
+  const courses = useSelector((state) => state.course.courses);
+  const course = courses.find((c) => c.id === parseInt(id)); // Find the selected course by ID
+
+  // Update the selected course in Redux when the page loads
+  useEffect(() => {
+    if (course) {
+      dispatch(setSelectedCourse(course)); // Set the selected course in Redux store
+    }
+  }, [dispatch, course]);
+
+  const isLoggedIn = useSelector((state) => state.auth.isloggedIn);
+  const enrolledCourses = useSelector(
+    (state) => state.auth.data.enrolledCourses
+  );
+
+  // Handle course enrollment
+  const handleEnroll = () => {
+    if (isLoggedIn) {
+      dispatch(enrollIncourse(course)); // Enroll the user in the course
+      alert("Successfully Enrolled in the Course");
+    } else {
+      alert("Please login to enroll in any course");
+      navigate("/login");
+    }
+  };
 
   if (!course) {
     return (
@@ -42,7 +69,7 @@ function CourseDescriptionPage() {
         </p>
         <button
           className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
-          onClick={() => alert(`Enrolled in ${course.title}`)}
+          onClick={handleEnroll}
         >
           Enroll Now
         </button>

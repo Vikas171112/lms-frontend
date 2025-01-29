@@ -1,16 +1,18 @@
+// authSlice.js
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Async thunk to handle signup process
+// Async thunk for signup process (already defined earlier)
 export const signupUser = createAsyncThunk(
   "auth/signupUser",
   async (userDetails) => {
-    // Fake server delay
     const fakeDelay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await fakeDelay(5000);
 
-    return userDetails; // Return the entire user details
+    return { ...userDetails, enrolledCourses: [] }; // Return user details with enrolledCourses
   }
 );
+
 export const LoginUser = createAsyncThunk(
   "auth/LoginUser",
   async (userDetails) => {
@@ -19,15 +21,17 @@ export const LoginUser = createAsyncThunk(
     return userDetails;
   }
 );
+
 // Initial state
 const initialState = {
   isloggedIn: localStorage.getItem("isloggedIn") === "true" || false, // Convert to boolean
   data: localStorage.getItem("data")
     ? JSON.parse(localStorage.getItem("data"))
-    : {}, // Parse JSON data if exists
+    : { enrolledCourses: [] }, // Ensure enrolledCourses is an empty array by default
   loading: false, // For loading state during signup
 };
 
+// Define the slice with reducers
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -36,7 +40,24 @@ const authSlice = createSlice({
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("data");
       state.isloggedIn = false;
-      state.data = {};
+      state.data = { enrolledCourses: [] }; // Reset enrolledCourses on logout
+    },
+    enrollIncourse(state, action) {
+      // Add the selected course to the enrolledCourses array
+      const course = action.payload;
+      if (!state.data.enrolledCourses) {
+        state.data.enrolledCourses = []; // Initialize the enrolledCourses array if it's empty
+      }
+
+      // Check if the course is already enrolled
+      const isAlreadyEnrolled = state.data.enrolledCourses.some(
+        (c) => c.id === course.id
+      );
+
+      if (!isAlreadyEnrolled) {
+        state.data.enrolledCourses.push(course); // Add the course to enrolledCourses
+        localStorage.setItem("data", JSON.stringify(state.data)); // Save updated data to localStorage
+      }
     },
   },
   extraReducers: (builder) => {
@@ -45,16 +66,14 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(signupUser.fulfilled, (state, action) => {
-        state.isloggedIn = true; // User logged in
-        state.data = action.payload; // Save entire user details in data
-        state.loading = false; // Loading complete
-
-        // Save to localStorage for persistence
+        state.isloggedIn = true;
+        state.data = action.payload;
+        state.loading = false;
         localStorage.setItem("isloggedIn", "true");
         localStorage.setItem("data", JSON.stringify(state.data));
       })
       .addCase(signupUser.rejected, (state) => {
-        state.loading = false; // Stop loading if signup fails
+        state.loading = false;
       });
     builder
       .addCase(LoginUser.pending, (state) => {
@@ -72,5 +91,8 @@ const authSlice = createSlice({
       });
   },
 });
-export const { logout } = authSlice.actions;
+
+// Export the enrollIncourse action for use in components
+export const { logout, enrollIncourse } = authSlice.actions;
+
 export default authSlice.reducer;
