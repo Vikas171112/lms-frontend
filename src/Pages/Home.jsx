@@ -36,7 +36,7 @@ function Home() {
           </p>
           <button
             onClick={() => {
-              navigate("/courselist");
+              navigateavigate("/courselist");
             }}
             className="mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded"
           >

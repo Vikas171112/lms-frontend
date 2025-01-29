@@ -28,7 +28,8 @@ const initialState = {
   data: localStorage.getItem("data")
     ? JSON.parse(localStorage.getItem("data"))
     : { enrolledCourses: [] }, // Ensure enrolledCourses is an empty array by default
-  loading: false, // For loading state during signup
+  loading: false,
+  role: localStorage.getItem("role") || "", // For determioning roloe of user
 };
 
 // Define the slice with reducers

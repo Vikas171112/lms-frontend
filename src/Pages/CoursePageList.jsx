@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function CourseListPage() {
   const courses = useSelector(selectAllCourses);
-  const navigate = useNavigate(); // Access all courses
+  // Access all courses
 
   return (
     <div className="bg-gray-100 min-h-screen py-12">

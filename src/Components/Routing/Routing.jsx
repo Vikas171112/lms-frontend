@@ -8,6 +8,8 @@ import NotFoundPage from "../../Pages/NotFoundPage";
 import CourseListPage from "../../Pages/CoursePageList";
 import CourseDescriptionPage from "../../Pages/CourseDescriptionPage";
 import MyCoursesPage from "../../Pages/MyCoursesPage";
+import ProfilePage from "../../Pages/ProfilePage";
+import CourseForm from "../../Pages/CourseForm";
 
 function Routing() {
   return (
@@ -18,6 +20,8 @@ function Routing() {
           <Route path="/courselist" element={<CourseListPage />} />
           <Route path="/course/:id" element={<CourseDescriptionPage />} />
           <Route path="/mycourses" element={<MyCoursesPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/createCourse" element={<CourseForm />} />
         </Route>
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />

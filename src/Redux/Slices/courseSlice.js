@@ -64,9 +64,19 @@ const courseSlice = createSlice({
     setSelectedCourse(state, action) {
       state.selectedCourse = action.payload;
     },
+    addCourses(state, action) {
+      const newCourse = {
+        id: state.courses.length //checking if the array is empty
+          ? state.courses[state.courses.length - 1].id + 1
+          : 1,
+        ...action.payload,
+      };
+      state.courses.push(newCourse);
+    },
   },
 });
 
-export const { setCourses, setSelectedCourse } = courseSlice.actions;
+export const { setCourses, setSelectedCourse, addCourses } =
+  courseSlice.actions;
 export const selectAllCourses = (state) => state.course.courses;
 export default courseSlice.reducer;
